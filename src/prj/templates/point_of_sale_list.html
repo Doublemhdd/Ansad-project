@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Liste des Points de Vente - Ansade App{% endblock %}
+
+{% block content %}
+<h1>Liste des Points de Vente</h1>
+<a href="{% url 'point_of_sale_create' %}" class="btn btn-primary mb-3">Créer un nouveau Point de Vente</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Commune</th>
+            <th>Latitude GPS</th>
+            <th>Longitude GPS</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for pos in points_of_sale %}
+        <tr>
+            <td>{{ pos.name }}</td>
+            <td>{{ pos.commune }}</td>
+            <td>{{ pos.gps_lat }}</td>
+            <td>{{ pos.gps_lon }}</td>
+            <td>
+                <a href="{% url 'point_of_sale_update' pos.pk %}" class="btn btn-sm btn-warning">Modifier</a>
+                <a href="{% url 'point_of_sale_delete' pos.pk %}" class="btn btn-sm btn-danger">Supprimer</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

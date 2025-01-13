@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Détails du Panier - Ansade App{% endblock %}
+
+{% block content %}
+<h1>Détails du Panier</h1>
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">{{ basket.name }}</h5>
+        <p class="card-text">{{ basket.description }}</p>
+        <a href="{% url 'basket_update' basket.pk %}" class="btn btn-warning">Modifier</a>
+        <a href="{% url 'basket_delete' basket.pk %}" class="btn btn-danger">Supprimer</a>
+        <a href="{% url 'basket_list' %}" class="btn btn-secondary">Retour à la liste</a>
+    </div>
+</div>
+{% endblock %}

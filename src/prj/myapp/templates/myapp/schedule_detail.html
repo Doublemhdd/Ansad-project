@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}<title>Schedule</title>{% endblock %}
+
+{% block content %}
+
+<h1 class="text-center"> Details of Schedule</h1>
+<ul class="list-group p-5">
+    <li class="list-group-item"><b>ID</b>: {{schedule.id}}</li>
+    <li class="list-group-item"><b>Plage</b>: {{schedule.plage}}</li>
+    <li class="list-group-item"><b>Semestre</b>: {{schedule.semestre}}</li>
+    <li class="list-group-item"><b>Day</b>: {{schedule.day}}</li>
+    <li class="list-group-item"><b>Date</b>: {{schedule.date}}</li>
+    <li class="list-group-item"><b>Name</b>: {{schedule.name}}</li>
+    <li class="list-group-item"><b>Module</b>: {{schedule.module}}</li>
+</ul>
+
+{% endblock %}

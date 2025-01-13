@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Liste des Moughataas - Ansade App{% endblock %}
+
+{% block content %}
+<h1>Liste des Moughataas</h1>
+<a href="{% url 'moughataa_create' %}" class="btn btn-primary mb-3">Créer un nouveau Moughataa</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Code</th>
+            <th>Nom</th>
+            <th>Wilaya</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for moughataa in moughataas %}
+        <tr>
+            <td>{{ moughataa.code }}</td>
+            <td>{{ moughataa.name }}</td>
+            <td>{{ moughataa.wilaya.name }}</td>
+            <td>
+                <a href="{% url 'moughataa_update' moughataa.pk %}" class="btn btn-sm btn-warning">Modifier</a>
+                <a href="{% url 'moughataa_delete' moughataa.pk %}" class="btn btn-sm btn-danger">Supprimer</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

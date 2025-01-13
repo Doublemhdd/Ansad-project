@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Supprimer un Panier - Ansade App{% endblock %}
+
+{% block content %}
+<h1>Supprimer le Panier</h1>
+<p>Êtes-vous sûr de vouloir supprimer "{{ basket.name }}" ?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Confirmer la suppression</button>
+    <a href="{% url 'basket_list' %}" class="btn btn-secondary">Annuler</a>
+</form>
+{% endblock %}

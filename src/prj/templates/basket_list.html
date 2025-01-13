@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Liste des Paniers - Ansade App{% endblock %}
+
+{% block content %}
+<h1>Liste des Paniers</h1>
+<a href="{% url 'basket_create' %}" class="btn btn-primary mb-3">Créer un nouveau Panier</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Description</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for basket in baskets %}
+        <tr>
+            <td>{{ basket.name }}</td>
+            <td>{{ basket.description }}</td>
+            <td>
+                <a href="{% url 'basket_update' basket.pk %}" class="btn btn-sm btn-warning">Modifier</a>
+                <a href="{% url 'basket_delete' basket.pk %}" class="btn btn-sm btn-danger">Supprimer</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

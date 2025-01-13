@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}<title>Import {{oname}}</title>{% endblock %}
+
+{% block content %}
+
+<div style="width: 75%; margin: auto;">
+    <canvas id="moduleHoursChart"></canvas>
+</div>
+
+<script>
+    const ctx = document.getElementById('moduleHoursChart').getContext('2d');
+    const moduleHoursChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: {{ labels|safe }},
+            datasets: [
+                {
+                    label: 'CM Hours',
+                    data: {{ cm_data|safe }},
+                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                },
+                {
+                    label: 'TD Hours',
+                    data: {{ td_data|safe }},
+                    backgroundColor: 'rgba(153, 102, 255, 0.6)',
+                },
+                {
+                    label: 'TP Hours',
+                    data: {{ tp_data|safe }},
+                    backgroundColor: 'rgba(255, 159, 64, 0.6)',
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Module Hours Distribution'
+                }
+            },
+            scales: {
+                x: {
+                    stacked: true,
+                },
+                y: {
+                    stacked: true,
+                }
+            }
+        }
+    });
+</script>
+
+{% endblock %}

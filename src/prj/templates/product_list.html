@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Liste des Produits - Ansade App{% endblock %}
+
+{% block content %}
+<h1>Liste des Produits</h1>
+<a href="{% url 'product_create' %}" class="btn btn-primary mb-3">Créer un nouveau Produit</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Description</th>
+            <th>Unité de mesure</th>
+            <th>Type de produit</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in products %}
+        <tr>
+            <td>{{ product.name }}</td>
+            <td>{{ product.description }}</td>
+            <td>{{ product.unit_measure }}</td>
+            <td>{{ product.product_type.name }}</td>
+            <td>
+                <a href="{% url 'product_update' product.pk %}" class="btn btn-sm btn-warning">Modifier</a>
+                <a href="{% url 'product_delete' product.pk %}" class="btn btn-sm btn-danger">Supprimer</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
