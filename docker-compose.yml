@@ -6,7 +6,7 @@ services:
     command: sh -c "cd prj && python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     volumes:
       - ./src:/app
-    working_dir: /app/prj
+    working_dir: /app/
     ports:
       - "127.0.0.1:23048:8000"  # Port Django = matricule (23048)
     depends_on:

@@ -4,7 +4,10 @@
 
 {% block content %}
 <h1>Liste des Paniers</h1>
-<a href="{% url 'basket_create' %}" class="btn btn-primary mb-3">Créer un nouveau Panier</a>
+<div class="mb-3">
+    <a href="{% url 'basket_create' %}" class="btn btn-primary">Créer un nouveau Panier</a>
+    <a href="{% url 'export_basket_excel' %}" class="btn btn-success">Exporter en Excel</a>
+</div>
 <table class="table">
     <thead>
         <tr>

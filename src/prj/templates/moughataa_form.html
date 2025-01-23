@@ -1,13 +1,28 @@
 {% extends 'base.html' %}
 
-{% block title %}{% if form.instance.pk %}Modifier{% else %}Créer{% endif %} un Moughataa - Ansade App{% endblock %}
+{% block title %}{% if form.instance.pk %}Modifier{% else %}Créer{% endif %} une Moughataa - Ansade App{% endblock %}
 
 {% block content %}
-<h1>{% if form.instance.pk %}Modifier{% else %}Créer{% endif %} un Moughataa</h1>
+<h1>{% if form.instance.pk %}Modifier{% else %}Créer{% endif %} une Moughataa</h1>
+
+<!-- Formulaire de création/modification de Moughataa -->
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" class="btn btn-success">Enregistrer</button>
+    <button type="submit" name="save_moughataa" class="btn btn-success">Enregistrer</button>
     <a href="{% url 'moughataa_list' %}" class="btn btn-secondary">Annuler</a>
 </form>
+
+<!-- Formulaire pour l'import de CSV -->
+<div class="mt-4">
+    <h3>Importer des Moughataas depuis un fichier CSV</h3>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="csvFile">Sélectionner un fichier CSV</label>
+            <input type="file" class="form-control-file" id="csvFile" name="csv_file" required>
+        </div>
+        <button type="submit" name="import_csv" class="btn btn-info">Importer depuis CSV</button>
+    </form>
+</div>
 {% endblock %}

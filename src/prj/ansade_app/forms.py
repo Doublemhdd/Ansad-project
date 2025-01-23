@@ -52,3 +52,15 @@ class PointOfSaleForm(forms.ModelForm):
     class Meta:
         model = PointOfSale
         fields = ['name', 'commune', 'gps_lat', 'gps_lon']
+
+class WilayaFilterForm(forms.Form):
+    code = forms.CharField(label='Code', required=False)
+    name = forms.CharField(label='Nom', required=False)
+
+class ProductPriceFilterForm(forms.Form):
+    product = forms.CharField(label='Produit', required=False)
+    point_of_sale = forms.CharField(label='Point de vente', required=False)
+    price_min = forms.DecimalField(label='Prix minimum', required=False)
+    price_max = forms.DecimalField(label='Prix maximum', required=False)
+    date_from = forms.DateField(label='Date de début', required=False, widget=forms.DateInput(attrs={'type': 'date'}))
+    date_to = forms.DateField(label='Date de fin', required=False, widget=forms.DateInput(attrs={'type': 'date'}))

@@ -4,7 +4,32 @@
 
 {% block content %}
 <h1>Liste des Wilayas</h1>
-<a href="{% url 'wilaya_create' %}" class="btn btn-primary mb-3">Créer une nouvelle Wilaya</a>
+
+<!-- Formulaire de filtrage -->
+<form method="get" class="mb-4">
+    <div class="row">
+        <div class="col-md-4">
+            <label for="id_code">Code</label>
+            {{ filter_form.code }}
+        </div>
+        <div class="col-md-4">
+            <label for="id_name">Nom</label>
+            {{ filter_form.name }}
+        </div>
+        <div class="col-md-4 align-self-end">
+            <button type="submit" class="btn btn-primary">Filtrer</button>
+            <a href="{% url 'wilaya_list' %}" class="btn btn-secondary">Réinitialiser</a>
+        </div>
+    </div>
+</form>
+
+<!-- Boutons d'export et de création -->
+<div class="mb-3">
+    <a href="{% url 'wilaya_create' %}" class="btn btn-primary">Créer une nouvelle Wilaya</a>
+    <a href="{% url 'export_wilaya_csv' %}" class="btn btn-success">Exporter en CSV</a>
+</div>
+
+<!-- Tableau des wilayas -->
 <table class="table">
     <thead>
         <tr>

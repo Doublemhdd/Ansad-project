@@ -4,7 +4,10 @@
 
 {% block content %}
 <h1>Liste des Moughataas</h1>
-<a href="{% url 'moughataa_create' %}" class="btn btn-primary mb-3">Créer un nouveau Moughataa</a>
+<div class="mb-3">
+    <a href="{% url 'moughataa_create' %}" class="btn btn-primary">Créer une nouvelle Moughataa</a>
+    <a href="{% url 'export_moughataa_csv' %}" class="btn btn-success">Exporter en CSV</a>
+</div>
 <table class="table">
     <thead>
         <tr>

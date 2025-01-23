@@ -45,6 +45,24 @@
                             </ul>
                         </li>
                     </ul>
+
+                    <!-- Menu de connexion/déconnexion -->
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        {% if user.is_authenticated %}
+                            <!-- Si l'utilisateur est connecté -->
+                            <li class="nav-item">
+                                <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="nav-link btn btn-link" style="padding: 0; border: none; background: none; cursor: pointer;">Déconnexion</button>
+                                </form>
+                            </li>
+                        {% else %}
+                            <!-- Si l'utilisateur n'est pas connecté -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'login' %}">Connexion</a>
+                            </li>
+                        {% endif %}
+                    </ul>
                 </div>
             </div>
         </nav>

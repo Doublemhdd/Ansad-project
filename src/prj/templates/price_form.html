@@ -4,10 +4,25 @@
 
 {% block content %}
 <h1>{% if form.instance.pk %}Modifier{% else %}Créer{% endif %} un Prix</h1>
+
+<!-- Formulaire de création/modification de Prix -->
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" class="btn btn-success">Enregistrer</button>
+    <button type="submit" name="save_price" class="btn btn-success">Enregistrer</button>
     <a href="{% url 'price_list' %}" class="btn btn-secondary">Annuler</a>
 </form>
+
+<!-- Formulaire pour l'import de CSV -->
+<div class="mt-4">
+    <h3>Importer des Prix depuis un fichier CSV</h3>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="csvFile">Sélectionner un fichier CSV</label>
+            <input type="file" class="form-control-file" id="csvFile" name="csv_file" required>
+        </div>
+        <button type="submit" name="import_csv" class="btn btn-info">Importer depuis CSV</button>
+    </form>
+</div>
 {% endblock %}

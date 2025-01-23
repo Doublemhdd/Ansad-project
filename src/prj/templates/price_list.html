@@ -1,15 +1,56 @@
 {% extends 'base.html' %}
 
-{% block title %}Liste des Prix des Produits - Ansade App{% endblock %}
+{% block title %}Liste des Prix - Ansade App{% endblock %}
 
 {% block content %}
-<h1>Liste des Prix des Produits</h1>
-<a href="{% url 'price_create' %}" class="btn btn-primary mb-3">Créer un nouveau Prix</a>
+<h1>Liste des Prix</h1>
+
+<!-- Formulaire de filtrage -->
+<form method="get" class="mb-4">
+    <div class="row">
+        <div class="col-md-3">
+            <label for="id_product">Produit</label>
+            {{ filter_form.product }}
+        </div>
+        <div class="col-md-3">
+            <label for="id_point_of_sale">Point de vente</label>
+            {{ filter_form.point_of_sale }}
+        </div>
+        <div class="col-md-2">
+            <label for="id_price_min">Prix minimum</label>
+            {{ filter_form.price_min }}
+        </div>
+        <div class="col-md-2">
+            <label for="id_price_max">Prix maximum</label>
+            {{ filter_form.price_max }}
+        </div>
+        <div class="col-md-2">
+            <label for="id_date_from">Date de début</label>
+            {{ filter_form.date_from }}
+        </div>
+        <div class="col-md-2">
+            <label for="id_date_to">Date de fin</label>
+            {{ filter_form.date_to }}
+        </div>
+        <div class="col-md-12 mt-3">
+            <button type="submit" class="btn btn-primary">Filtrer</button>
+            <a href="{% url 'price_list' %}" class="btn btn-secondary">Réinitialiser</a>
+        </div>
+    </div>
+</form>
+
+<!-- Boutons d'export et de création -->
+<div class="mb-3">
+    <a href="{% url 'price_create' %}" class="btn btn-primary">Créer un nouveau Prix</a>
+    <a href="{% url 'export_price_csv' %}" class="btn btn-success">Exporter en CSV</a>
+</div>
+
+<!-- Tableau des prix -->
 <table class="table">
     <thead>
         <tr>
             <th>Produit</th>
-            <th>Point de Vente</th>
+            <th>Point de vente</th>
             <th>Prix</th>
             <th>Date de début</th>
             <th>Date de fin</th>
