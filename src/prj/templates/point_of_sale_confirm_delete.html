@@ -1,13 +1,33 @@
 {% extends 'base.html' %}
 
-{% block title %}Supprimer un Point de Vente - Ansade App{% endblock %}
+{% block title %}
+  Supprimer un Point de vente - Ansade App
+{% endblock %}
 
 {% block content %}
-<h1>Supprimer le Point de Vente</h1>
-<p>Êtes-vous sûr de vouloir supprimer "{{ point_of_sale.name }}" ?</p>
+<h1>Supprimer le Point de vente</h1>
+
+<!-- Messages -->
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
+
+<p>
+  Êtes-vous sûr de vouloir supprimer le point de vente 
+  <strong>"{{ point_of_sale.name }}"</strong> ?
+</p>
+
 <form method="post">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Confirmer la suppression</button>
-    <a href="{% url 'point_of_sale_list' %}" class="btn btn-secondary">Annuler</a>
+  {% csrf_token %}
+  <button type="submit" class="btn btn-danger">
+    Confirmer la suppression
+  </button>
+  <a href="{% url 'point_of_sale_list' %}" class="btn btn-secondary">
+    Annuler
+  </a>
 </form>
 {% endblock %}

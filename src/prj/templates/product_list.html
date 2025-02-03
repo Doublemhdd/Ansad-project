@@ -4,30 +4,71 @@
 
 {% block content %}
 <h1>Liste des Produits</h1>
-<a href="{% url 'product_create' %}" class="btn btn-primary mb-3">Créer un nouveau Produit</a>
-<table class="table">
+
+<!-- Affichage des messages (succès, erreurs, etc.) -->
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
+
+<!-- Bouton de création d'un produit -->
+<div class="mb-3">
+    <a href="{% url 'product_create' %}" class="btn btn-primary">
+        Créer un nouveau Produit
+    </a>
+
+    
+    
+    <a href="{% url 'export_product_excel' %}" class="btn btn-success">
+        Exporter en CSV
+    </a> 
+    
+
+    <!-- Formulaire d'importation de produits depuis un fichier Excel -->
+    <form action="{% url 'product_create' %}" method="post" enctype="multipart/form-data" style="display:inline;">
+      {% csrf_token %}
+      <input type="file" name="excel_file" accept=".xlsx,.xls" required>
+      <button type="submit" class="btn btn-info" name="import_excel" value="1">
+        Importer Excel
+      </button>
+    </form>
+    
+</div>
+
+<!-- Tableau listant les produits -->
+<table class="table table-bordered table-striped">
     <thead>
         <tr>
+            <th>ID</th>
             <th>Nom</th>
             <th>Description</th>
-            <th>Unité de mesure</th>
-            <th>Type de produit</th>
-            <th>Actions</th>
+            <th>Unit measure</th>
+            <th>Product type</th>
+            <th style="width: 15%;">Actions</th>
         </tr>
     </thead>
     <tbody>
-        {% for product in products %}
+    {% for product in products %}
         <tr>
+            <td>{{ product.id }}</td>
             <td>{{ product.name }}</td>
             <td>{{ product.description }}</td>
             <td>{{ product.unit_measure }}</td>
-            <td>{{ product.product_type.name }}</td>
+            <td>{{ product.product_type }}</td>
             <td>
-                <a href="{% url 'product_update' product.pk %}" class="btn btn-sm btn-warning">Modifier</a>
-                <a href="{% url 'product_delete' product.pk %}" class="btn btn-sm btn-danger">Supprimer</a>
+                <a href="{% url 'product_update' product.pk %}" class="btn btn-sm btn-warning">
+                    Modifier
+                </a>
+                <a href="{% url 'product_delete' product.pk %}" class="btn btn-sm btn-danger">
+                    Supprimer
+                </a>
             </td>
         </tr>
-        {% endfor %}
+    {% endfor %}
     </tbody>
 </table>
+
 {% endblock %}

@@ -1,13 +1,34 @@
 {% extends 'base.html' %}
 
-{% block title %}Supprimer un Moughataa - Ansade App{% endblock %}
+{% block title %}
+  Supprimer une Moughataa - Ansade App
+{% endblock %}
 
 {% block content %}
-<h1>Supprimer le Moughataa</h1>
-<p>Êtes-vous sûr de vouloir supprimer "{{ moughataa.name }}" ?</p>
+<h1>Supprimer la Moughataa</h1>
+
+<!-- Optionnel : affichage des messages -->
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
+
+<p>
+  Êtes-vous sûr de vouloir supprimer la Moughataa 
+  <strong>"{{ moughataa.name }}"</strong>
+  (Code : {{ moughataa.code }}, Wilaya : {{ moughataa.wilaya.name }}) ?
+</p>
+
 <form method="post">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Confirmer la suppression</button>
-    <a href="{% url 'moughataa_list' %}" class="btn btn-secondary">Annuler</a>
+  {% csrf_token %}
+  <button type="submit" class="btn btn-danger">
+    Confirmer la suppression
+  </button>
+  <a href="{% url 'moughataa_list' %}" class="btn btn-secondary">
+    Annuler
+  </a>
 </form>
 {% endblock %}

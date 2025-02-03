@@ -1,13 +1,48 @@
 {% extends 'base.html' %}
 
-{% block title %}{% if form.instance.pk %}Modifier{% else %}Créer{% endif %} un Point de Vente - Ansade App{% endblock %}
+{% block title %}
+  {% if form.instance.pk %}Modifier{% else %}Créer{% endif %} un Point de vente - Ansade App
+{% endblock %}
 
 {% block content %}
-<h1>{% if form.instance.pk %}Modifier{% else %}Créer{% endif %} un Point de Vente</h1>
+<h1>
+  {% if form.instance.pk %}Modifier{% else %}Créer{% endif %} un Point de vente
+</h1>
+
+<!-- Affichage des messages -->
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
+
+<!-- Formulaire principal -->
 <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-success">Enregistrer</button>
-    <a href="{% url 'point_of_sale_list' %}" class="btn btn-secondary">Annuler</a>
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit" class="btn btn-success" name="save_point_of_sale">
+    Enregistrer
+  </button>
+  <a href="{% url 'point_of_sale_list' %}" class="btn btn-secondary">
+    Annuler
+  </a>
 </form>
+
+
+<div class="mt-4">
+  <h3>Importer des Points de vente depuis un fichier Excel</h3>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="excelFile">Sélectionner un fichier Excel</label>
+      <input type="file" class="form-control-file" id="excelFile" name="excel_file" accept=".xlsx,.xls" required>
+    </div>
+    <button type="submit" name="import_excel" class="btn btn-info">
+      Importer depuis Excel
+    </button>
+  </form>
+</div>
+
 {% endblock %}

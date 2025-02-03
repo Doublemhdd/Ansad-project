@@ -1,28 +1,47 @@
 {% extends 'base.html' %}
 
-{% block title %}{% if form.instance.pk %}Modifier{% else %}Créer{% endif %} un Panier - Ansade App{% endblock %}
+{% block title %}
+  {% if form.instance.pk %}Modifier{% else %}Créer{% endif %} un Panier - Ansade App
+{% endblock %}
 
 {% block content %}
-<h1>{% if form.instance.pk %}Modifier{% else %}Créer{% endif %} un Panier</h1>
+<h1>
+  {% if form.instance.pk %}Modifier{% else %}Créer{% endif %} un Panier
+</h1>
 
-<!-- Formulaire de création/modification de Panier -->
+<!-- Affichage des messages -->
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
+
+<!-- Formulaire principal -->
 <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" name="save_basket" class="btn btn-success">Enregistrer</button>
-    <a href="{% url 'basket_list' %}" class="btn btn-secondary">Annuler</a>
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit" name="save_basket" class="btn btn-success">
+    Enregistrer
+  </button>
+  <a href="{% url 'basket_list' %}" class="btn btn-secondary">
+    Annuler
+  </a>
 </form>
 
-<!-- Formulaire pour l'import de CSV -->
+<!-- Formulaire d'import Excel (si géré ici) -->
 <div class="mt-4">
-    <h3>Importer des Paniers depuis un fichier CSV</h3>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="form-group">
-            <label for="csvFile">Sélectionner un fichier CSV</label>
-            <input type="file" class="form-control-file" id="csvFile" name="csv_file" required>
-        </div>
-        <button type="submit" name="import_csv" class="btn btn-info">Importer depuis CSV</button>
-    </form>
+  <h3>Importer des Paniers depuis un fichier Excel</h3>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="excelFile">Sélectionner un fichier Excel</label>
+      <input type="file" class="form-control-file" id="excelFile" name="excel_file" accept=".xlsx,.xls" required>
+    </div>
+    <button type="submit" name="import_excel" class="btn btn-info">
+      Importer depuis Excel
+    </button>
+  </form>
 </div>
 {% endblock %}

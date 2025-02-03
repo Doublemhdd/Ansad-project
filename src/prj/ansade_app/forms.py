@@ -1,58 +1,58 @@
 from django import forms
-from .models import Moughataa
-
+from .models import *
+# Formulaire pour Moughataa
 class MoughataaForm(forms.ModelForm):
     class Meta:
         model = Moughataa
         fields = ['code', 'name', 'wilaya']
 
-from django import forms
-from .models import Wilaya
-
+# Formulaire pour Wilaya
 class WilayaForm(forms.ModelForm):
     class Meta:
         model = Wilaya
         fields = ['code', 'name']
 
-from django import forms
-from .models import Commune
-
+# Formulaire pour Commune
 class CommuneForm(forms.ModelForm):
     class Meta:
         model = Commune
         fields = ['code', 'name', 'moughataa']
 
-from django import forms
-from .models import Product
-
+# Formulaire pour Product
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['name', 'description', 'unit_measure', 'product_type']
+        fields = ['code', 'name', 'description', 'unit_measure', 'product_type']  # Ajout de 'code'
 
-from django import forms
-from .models import Basket
-
+# Formulaire pour Basket
 class BasketForm(forms.ModelForm):
     class Meta:
         model = Basket
-        fields = ['name', 'description']
+        fields = ['code', 'name', 'description']  # Ajout de 'code'
 
-from django import forms
-from .models import ProductPrice
-
+# Formulaire pour ProductPrice
 class ProductPriceForm(forms.ModelForm):
     class Meta:
         model = ProductPrice
         fields = ['product', 'point_of_sale', 'price', 'date_from', 'date_to']
-from django import forms
-from .models import PointOfSale
 
+# Formulaire pour PointOfSale
 class PointOfSaleForm(forms.ModelForm):
     class Meta:
         model = PointOfSale
-        fields = ['name', 'commune', 'gps_lat', 'gps_lon']
+        fields = ['code', 'name', 'type', 'commune', 'gps_lat', 'gps_lon']  # Ajout de 'code' et 'type'
 
+# Formulaire pour BasketProduct
+class BasketProductForm(forms.ModelForm):
+    class Meta:
+        model = BasketProduct
+        fields = ['basket', 'product', 'weight', 'date_from', 'date_to']  # Ajout de 'date_from' et 'date_to'
+# Formilaire pour ProductType
+class ProductTypeForm(forms.ModelForm):
+    class Meta:
+        model = ProductType
+        fields = ['code', 'name', 'description']
+# Filtres
 class WilayaFilterForm(forms.Form):
     code = forms.CharField(label='Code', required=False)
     name = forms.CharField(label='Nom', required=False)

@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h2 class="mb-0">Calcul de l'Indice National des Prix à la Consommation (INPC)</h2>
+        </div>
+        <div class="card-body">
+            <!-- Formulaire de sélection d'année et de mois -->
+            <form method="get" class="mb-4">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="annee">Année</label>
+                            <select name="annee" id="annee" class="form-control" onchange="this.form.submit()">
+                                {% for annee in annees_disponibles %}
+                                <option value="{{ annee }}" {% if annee == annee_courante %}selected{% endif %}>
+                                    {{ annee }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="mois">Mois</label>
+                            <select name="mois" id="mois" class="form-control" onchange="this.form.submit()">
+                                <option value="1" {% if mois_courant == 1 %}selected{% endif %}>Janvier</option>
+                                <option value="2" {% if mois_courant == 2 %}selected{% endif %}>Février</option>
+                                <option value="3" {% if mois_courant == 3 %}selected{% endif %}>Mars</option>
+                                <option value="4" {% if mois_courant == 4 %}selected{% endif %}>Avril</option>
+                                <option value="5" {% if mois_courant == 5 %}selected{% endif %}>Mai</option>
+                                <option value="6" {% if mois_courant == 6 %}selected{% endif %}>Juin</option>
+                                <option value="7" {% if mois_courant == 7 %}selected{% endif %}>Juillet</option>
+                                <option value="8" {% if mois_courant == 8 %}selected{% endif %}>Août</option>
+                                <option value="9" {% if mois_courant == 9 %}selected{% endif %}>Septembre</option>
+                                <option value="10" {% if mois_courant == 10 %}selected{% endif %}>Octobre</option>
+                                <option value="11" {% if mois_courant == 11 %}selected{% endif %}>Novembre</option>
+                                <option value="12" {% if mois_courant == 12 %}selected{% endif %}>Décembre</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Reste du code précédent -->
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h3 class="mb-0">INPC par Groupe de Produits</h3>
+                        </div>
+                        <div class="card-body p-0">
+                            <table class="table table-hover table-bordered mb-0">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Année</th>
+                                        <th>Mois</th>
+                                        <th>Groupe de Produits</th>
+                                        <th>Indice INPC (Base {{ annee_base }})</th>
+                                        <th>Produits Calculés</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in inpc_par_groupe %}
+                                    <tr>
+                                        <td>{{ item.Année }}</td>
+                                        <td>{{ item.Mois }}</td>
+                                        <td>{{ item.Groupe }}</td>
+                                        <td class="{% if item.INPC > 100 %}text-danger{% elif item.INPC < 100 %}text-success{% else %}text-warning{% endif %}">
+                                            {{ item.INPC|floatformat:2 }}
+                                        </td>
+                                        <td>{{ item.Produits_Calculés }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="mb-0">INPC Global</h3>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-bordered">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Année</th>
+                                        <th>Mois</th>
+                                        <th>INPC</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for key, value in inpc_global.items %}
+                                    <tr>
+                                        <td>{{ key.0 }}</td>
+                                        <td>{{ key.1 }}</td>
+                                        <td class="font-weight-bold {% if value > 100 %}text-danger{% elif value < 100 %}text-success{% else %}text-warning{% endif %}">
+                                            {{ value|floatformat:2 }}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="alert alert-info mt-3" role="alert">
+                <strong>Informations:</strong>
+                <ul class="mb-0">
+                    <li>Base 100 = {{ annee_base }}</li>
+                    <li>Calcul basé sur les prix et pondérations des produits</li>
+                    <li>Mise à jour : {{ "now"|date:"F Y" }}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Optional: Add some interactivity or charts if needed
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('INPC Calculation Page Loaded');
+    });
+</script>
+{% endblock %}

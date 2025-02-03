@@ -4,28 +4,59 @@
 
 {% block content %}
 <h1>Liste des Communes</h1>
-<a href="{% url 'commune_create' %}" class="btn btn-primary mb-3">Créer une nouvelle Commune</a>
-<table class="table">
+
+<!-- Display messages -->
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
+
+<!-- Button to create a new Commune -->
+<div class="mb-3">
+    <a href="{% url 'commune_create' %}" class="btn btn-primary">
+        Créer une nouvelle Commune
+    </a>
+</div>
+
+<!-- Import form for Excel on the list page -->
+<div class="mb-3">
+    <h3>Importer des Communes depuis un fichier Excel</h3>
+    <form action="{% url 'commune_create' %}" method="post" enctype="multipart/form-data" style="display:inline;">
+      {% csrf_token %}
+      <input type="file" name="excel_file" accept=".xlsx,.xls" required>
+      <button type="submit" name="import_excel" class="btn btn-info">Importer depuis Excel</button>
+    </form>
+</div>
+
+<!-- Table listing the communes -->
+<table class="table table-bordered table-striped">
     <thead>
         <tr>
             <th>Code</th>
             <th>Nom</th>
             <th>Moughataa</th>
-            <th>Actions</th>
+            <th style="width: 15%;">Actions</th>
         </tr>
     </thead>
     <tbody>
-        {% for commune in communes %}
+    {% for commune in communes %}
         <tr>
             <td>{{ commune.code }}</td>
             <td>{{ commune.name }}</td>
-            <td>{{ commune.moughataa.name }}</td>
+            <td>{{ commune.moughataa }}</td>
             <td>
-                <a href="{% url 'commune_update' commune.pk %}" class="btn btn-sm btn-warning">Modifier</a>
-                <a href="{% url 'commune_delete' commune.pk %}" class="btn btn-sm btn-danger">Supprimer</a>
+                <a href="{% url 'commune_update' commune.pk %}" class="btn btn-sm btn-warning">
+                    Modifier
+                </a>
+                <a href="{% url 'commune_delete' commune.pk %}" class="btn btn-sm btn-danger">
+                    Supprimer
+                </a>
             </td>
         </tr>
-        {% endfor %}
+    {% endfor %}
     </tbody>
 </table>
 {% endblock %}

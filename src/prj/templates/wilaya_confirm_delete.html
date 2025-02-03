@@ -1,13 +1,33 @@
 {% extends 'base.html' %}
 
-{% block title %}Supprimer une Wilaya - Ansade App{% endblock %}
+{% block title %}
+  Supprimer une Wilaya - Ansade App
+{% endblock %}
 
 {% block content %}
 <h1>Supprimer la Wilaya</h1>
-<p>Êtes-vous sûr de vouloir supprimer "{{ wilaya.name }}" ?</p>
+
+<!-- Optionnel : affichage des messages s'il y en a -->
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
+
+<p>
+  Êtes-vous sûr de vouloir supprimer la Wilaya 
+  <strong>"{{ wilaya.name }}"</strong> (Code : {{ wilaya.code }}) ?
+</p>
+
 <form method="post">
     {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Confirmer la suppression</button>
-    <a href="{% url 'wilaya_list' %}" class="btn btn-secondary">Annuler</a>
+    <button type="submit" class="btn btn-danger">
+      Confirmer la suppression
+    </button>
+    <a href="{% url 'wilaya_list' %}" class="btn btn-secondary">
+      Annuler
+    </a>
 </form>
 {% endblock %}

@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 
 {% block title %}
-  {% if form.instance.pk %}Modifier{% else %}Créer{% endif %} une Moughataa - Ansade App
+  {% if form.instance.pk %}Modifier{% else %}Ajouter{% endif %} un Produit au Panier - Ansade App
 {% endblock %}
 
 {% block content %}
 <h1>
-  {% if form.instance.pk %}Modifier{% else %}Créer{% endif %} une Moughataa
+  {% if form.instance.pk %}Modifier{% else %}Ajouter{% endif %} un Produit au Panier
 </h1>
 
-<!-- Affichage des messages Django -->
+<!-- Affichage des messages -->
 {% if messages %}
   {% for message in messages %}
     <div class="alert alert-{{ message.tags }}">
@@ -18,21 +18,22 @@
   {% endfor %}
 {% endif %}
 
-<!-- Formulaire de création / modification -->
+<!-- Formulaire principal (création ou mise à jour) -->
 <form method="post">
   {% csrf_token %}
   {{ form.as_p }}
-  <button type="submit" name="save_moughataa" class="btn btn-success">
+
+  <button type="submit" class="btn btn-success">
     Enregistrer
   </button>
-  <a href="{% url 'moughataa_list' %}" class="btn btn-secondary">
+  <a href="{% url 'basket_product_list' %}" class="btn btn-secondary">
     Annuler
   </a>
 </form>
 
-<!-- Formulaire pour l'import Excel (si on gère l'import ici) -->
+
 <div class="mt-4">
-  <h3>Importer des Moughataas depuis un fichier Excel</h3>
+  <h3>Importer des Produits dans des Paniers depuis un fichier Excel</h3>
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="form-group">
@@ -44,4 +45,5 @@
     </button>
   </form>
 </div>
+
 {% endblock %}

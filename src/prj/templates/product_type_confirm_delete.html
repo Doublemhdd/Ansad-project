@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
 {% block title %}
-  Supprimer un Produit - Ansade App
+  Supprimer un Type de produit - Ansade App
 {% endblock %}
 
 {% block content %}
-<h1>Supprimer le Produit</h1>
+<h1>Supprimer le Type de produit</h1>
 
 <!-- Affichage des messages -->
 {% if messages %}
@@ -17,8 +17,8 @@
 {% endif %}
 
 <p>
-  Êtes-vous sûr de vouloir supprimer 
-  <strong>"{{ product.name }}"</strong> ?
+  Êtes-vous sûr de vouloir supprimer le type de produit 
+  <strong>"{{ product_type.name }}"</strong> ?
 </p>
 
 <form method="post">
@@ -26,7 +26,7 @@
   <button type="submit" class="btn btn-danger">
     Confirmer la suppression
   </button>
-  <a href="{% url 'product_list' %}" class="btn btn-secondary">
+  <a href="{% url 'product_type_list' %}" class="btn btn-secondary">
     Annuler
   </a>
 </form>

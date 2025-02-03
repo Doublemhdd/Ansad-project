@@ -1,8 +1,131 @@
-{% extends 'base.html' %}
-
-{% block title %}Accueil - Ansade App{% endblock %}
-
+{% extends "base.html" %}
+{% block title %}Accueil - INPC{% endblock %}
 {% block content %}
-<h1>Bienvenue sur Ansade App</h1>
-<p>Gérez vos wilayas, moughataas, communes, produits, et points de vente.</p>
+<h1>INPC des 4 derniers mois</h1>
+
+<!-- Table displaying INPC data -->
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Mois</th>
+            <th>INPC</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in inpc_data %}
+        <tr>
+            <td>{{ item.month_label }}</td>
+            <td>{{ item.inpc }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Line Chart Container -->
+<h2>Variation de l'INPC</h2>
+<div style="width:300px; height:150px;">
+  <canvas id="lineChart"></canvas>
+</div>
+
+<!-- Pie Chart Container -->
+<h2>Répartition des types de produits</h2>
+<div style="width:300px; height:150px;">
+  <canvas id="pieChart"></canvas>
+</div>
+
+<!-- Bar Chart Container -->
+<h2>Prix moyen par type de produit</h2>
+<div style="width:300px; height:150px;">
+  <canvas id="barChart"></canvas>
+</div>
+
+<!-- Include Chart.js from CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Line Chart: INPC Variation
+    var ctxLine = document.getElementById('lineChart').getContext('2d');
+    var lineChart = new Chart(ctxLine, {
+        type: 'line',
+        data: {
+            labels: {{ labels_mois|safe }},
+            datasets: [{
+                label: 'INPC',
+                data: {{ valeurs_inpc|safe }},
+                borderColor: 'rgba(54, 162, 235, 1)',
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderWidth: 2,
+                tension: 0.3,
+                fill: false
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: false,
+                    title: { display: true, text: 'INPC' }
+                },
+                x: {
+                    title: { display: true, text: 'Mois' }
+                }
+            }
+        }
+    });
+
+    // Pie Chart: Product Type Distribution
+    var ctxPie = document.getElementById('pieChart').getContext('2d');
+    var pieChart = new Chart(ctxPie, {
+        type: 'pie',
+        data: {
+            labels: {{ pie_labels|safe }},
+            datasets: [{
+                data: {{ pie_data|safe }},
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.6)',
+                    'rgba(54, 162, 235, 0.6)',
+                    'rgba(255, 206, 86, 0.6)',
+                    'rgba(75, 192, 192, 0.6)',
+                    'rgba(153, 102, 255, 0.6)',
+                    'rgba(255, 159, 64, 0.6)'
+                ],
+                borderColor: 'rgba(255, 255, 255, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
+
+    // Bar Chart: Average Price per Product Type
+    var ctxBar = document.getElementById('barChart').getContext('2d');
+    var barChart = new Chart(ctxBar, {
+        type: 'bar',
+        data: {
+            labels: {{ bar_labels|safe }},
+            datasets: [{
+                label: 'Prix moyen',
+                data: {{ bar_data|safe }},
+                backgroundColor: 'rgba(255, 206, 86, 0.6)',
+                borderColor: 'rgba(255, 206, 86, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: { display: true, text: 'Prix moyen' }
+                },
+                x: {
+                    title: { display: true, text: 'Type de produit' }
+                }
+            }
+        }
+    });
+</script>
 {% endblock %}

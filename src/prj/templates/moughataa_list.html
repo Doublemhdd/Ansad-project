@@ -4,31 +4,69 @@
 
 {% block content %}
 <h1>Liste des Moughataas</h1>
+
+<!-- Affichage des messages (succès, erreurs, etc.) -->
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
+
+<!--
+  Si tu as un filtre pour Moughataa (ex. code, nom, ou wilaya),
+  tu peux ajouter un form method="get" comme pour les wilayas.
+  Par exemple:
+-->
+
+<!-- Exemple minimal sans filtre -->
 <div class="mb-3">
-    <a href="{% url 'moughataa_create' %}" class="btn btn-primary">Créer une nouvelle Moughataa</a>
-    <a href="{% url 'export_moughataa_csv' %}" class="btn btn-success">Exporter en CSV</a>
+    <!-- Bouton de création -->
+    <a href="{% url 'moughataa_create' %}" class="btn btn-primary">
+      Créer une nouvelle Moughataa
+    </a>
+
+    <!-- Bouton d'export CSV (si tu as gardé la logique d'export) -->
+    <a href="{% url 'export_moughataa_csv' %}" class="btn btn-success">
+      Exporter en CSV
+    </a>
+
+    <!-- Formulaire d'import Excel (optionnel si tu veux importer depuis la liste) -->
+    <form action="{% url 'moughataa_create' %}" method="post" enctype="multipart/form-data" style="display:inline;">
+      {% csrf_token %}
+      <input type="file" name="excel_file" accept=".xlsx,.xls" required>
+      <button type="submit" class="btn btn-info" name="import_excel" value="1">
+        Importer Excel
+      </button>
+    </form>
 </div>
-<table class="table">
+
+<table class="table table-bordered table-striped">
     <thead>
         <tr>
             <th>Code</th>
             <th>Nom</th>
             <th>Wilaya</th>
-            <th>Actions</th>
+            <th style="width: 15%;">Actions</th>
         </tr>
     </thead>
     <tbody>
-        {% for moughataa in moughataas %}
+    {% for moughataa in moughataas %}
         <tr>
             <td>{{ moughataa.code }}</td>
             <td>{{ moughataa.name }}</td>
             <td>{{ moughataa.wilaya.name }}</td>
             <td>
-                <a href="{% url 'moughataa_update' moughataa.pk %}" class="btn btn-sm btn-warning">Modifier</a>
-                <a href="{% url 'moughataa_delete' moughataa.pk %}" class="btn btn-sm btn-danger">Supprimer</a>
+                <a href="{% url 'moughataa_update' moughataa.pk %}" class="btn btn-sm btn-warning">
+                    Modifier
+                </a>
+                <a href="{% url 'moughataa_delete' moughataa.pk %}" class="btn btn-sm btn-danger">
+                    Supprimer
+                </a>
             </td>
         </tr>
-        {% endfor %}
+    {% endfor %}
     </tbody>
 </table>
 {% endblock %}

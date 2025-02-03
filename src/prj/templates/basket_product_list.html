@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}Liste des Produits dans les Paniers - Ansade App{% endblock %}
+
+{% block content %}
+<h1>Liste des Produits dans les Paniers</h1>
+
+<!-- Affichage des messages (succès, erreurs, etc.) -->
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
+
+<!-- Boutons : créer, export et import -->
+<div class="mb-3">
+    <a href="{% url 'basket_product_create' %}" class="btn btn-primary">
+        Ajouter un Produit à un Panier
+    </a>
+
+    <a href="{% url 'export_basket_product_excel' %}" class="btn btn-success">
+        Exporter en Excel
+    </a>
+    
+    <form action="{% url 'basket_product_create' %}" method="post" enctype="multipart/form-data" style="display:inline;">
+        {% csrf_token %}
+        <input type="file" name="excel_file" accept=".xlsx,.xls" required>
+        <button type="submit" name="import_excel" class="btn btn-info">
+            Importer Excel
+        </button>
+    </form>
+</div>
+
+<!-- Tableau listant les BasketProduct -->
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Panier</th>
+            <th>Produit</th>
+            <th>Poids</th>
+            <th>Date début</th>
+            <th>Date fin</th>
+            <th style="width: 15%;">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for bp in basket_products %}
+        <tr>
+            <td>{{ bp.basket.name }}</td>
+            <td>{{ bp.product.name }}</td>
+            <td>{{ bp.weight }}</td>
+            <td>{{ bp.date_from }}</td>
+            <td>{{ bp.date_to }}</td>
+            <td>
+                <a href="{% url 'basket_product_update' bp.pk %}" class="btn btn-sm btn-warning">
+                    Modifier
+                </a>
+                <a href="{% url 'basket_product_delete' bp.pk %}" class="btn btn-sm btn-danger">
+                    Supprimer
+                </a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

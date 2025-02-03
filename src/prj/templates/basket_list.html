@@ -4,29 +4,64 @@
 
 {% block content %}
 <h1>Liste des Paniers</h1>
+
+<!-- Affichage des messages -->
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
+
+<!-- Bouton de création et (optionnel) export/import -->
 <div class="mb-3">
-    <a href="{% url 'basket_create' %}" class="btn btn-primary">Créer un nouveau Panier</a>
-    <a href="{% url 'export_basket_excel' %}" class="btn btn-success">Exporter en Excel</a>
+    <a href="{% url 'basket_create' %}" class="btn btn-primary">
+        Créer un nouveau Panier
+    </a>
+
+    <!-- Export en Excel, si on a conservé la logique d'export_basket_excel -->
+    <a href="{% url 'export_basket_excel' %}" class="btn btn-success">
+        Exporter en Excel
+    </a>
+
+    <!-- Formulaire d'import Excel (facultatif) si tu gères l'import depuis la liste -->
+    <form action="{% url 'basket_create' %}" method="post" enctype="multipart/form-data" style="display:inline;">
+        {% csrf_token %}
+        <input type="file" name="excel_file" accept=".xlsx,.xls">
+        <button type="submit" name="import_excel" class="btn btn-info">
+            Importer Excel
+        </button>
+    </form>
 </div>
-<table class="table">
+
+<!-- Tableau listant les paniers -->
+<table class="table table-bordered table-striped">
     <thead>
         <tr>
+            <th>ID</th>
             <th>Nom</th>
             <th>Description</th>
-            <th>Actions</th>
+            <th style="width: 15%;">Actions</th>
         </tr>
     </thead>
     <tbody>
-        {% for basket in baskets %}
+    {% for basket in baskets %}
         <tr>
+            <td>{{ basket.id }}</td>
             <td>{{ basket.name }}</td>
             <td>{{ basket.description }}</td>
             <td>
-                <a href="{% url 'basket_update' basket.pk %}" class="btn btn-sm btn-warning">Modifier</a>
-                <a href="{% url 'basket_delete' basket.pk %}" class="btn btn-sm btn-danger">Supprimer</a>
+                <a href="{% url 'basket_update' basket.pk %}" class="btn btn-sm btn-warning">
+                    Modifier
+                </a>
+                <a href="{% url 'basket_delete' basket.pk %}" class="btn btn-sm btn-danger">
+                    Supprimer
+                </a>
             </td>
         </tr>
-        {% endfor %}
+    {% endfor %}
     </tbody>
 </table>
+
 {% endblock %}

@@ -1,13 +1,41 @@
 {% extends 'base.html' %}
 
-{% block title %}{% if form.instance.pk %}Modifier{% else %}Créer{% endif %} une Commune - Ansade App{% endblock %}
+{% block title %}
+  {% if form.instance.pk %}Modifier{% else %}Créer{% endif %} une Commune - Ansade App
+{% endblock %}
 
 {% block content %}
-<h1>{% if form.instance.pk %}Modifier{% else %}Créer{% endif %} une Commune</h1>
+<h1>
+  {% if form.instance.pk %}Modifier{% else %}Créer{% endif %} une Commune
+</h1>
+
+<!-- Display messages (success, error, etc.) -->
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
+
+<!-- Standard creation/update form -->
 <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-success">Enregistrer</button>
-    <a href="{% url 'commune_list' %}" class="btn btn-secondary">Annuler</a>
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit" class="btn btn-success">Enregistrer</button>
+  <a href="{% url 'commune_list' %}" class="btn btn-secondary">Annuler</a>
+</form>
+
+<hr>
+
+<!-- Import form for Excel -->
+<h3>Importer des Communes depuis un fichier Excel</h3>
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="excelFile">Sélectionner un fichier Excel</label>
+    <input type="file" class="form-control-file" id="excelFile" name="excel_file" accept=".xlsx,.xls" required>
+  </div>
+  <button type="submit" name="import_excel" class="btn btn-info">Importer depuis Excel</button>
 </form>
 {% endblock %}

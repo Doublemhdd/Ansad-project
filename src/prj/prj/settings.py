@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-ighi#_@d7)4f#1ba(=z(xrtx$ze_-pbmsu*t+p$p7mp#vlw_70
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -140,3 +140,4 @@ LOGIN_REDIRECT_URL = 'home'  # Redirige vers la page d'accueil après la connexi
 
 # Redirection après la déconnexion
 LOGOUT_REDIRECT_URL = 'login'  # Redirige vers la page de connexion après la déconnexion
+CRSF_Trusted_Origins = ['localhost:8000', 'http://138.201.52.29:25048','http://teaching.sidi.xyz:25048'] 

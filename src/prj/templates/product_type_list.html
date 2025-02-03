@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}Liste des Types de Produits - Ansade App{% endblock %}
+
+{% block content %}
+<h1>Liste des Types de Produits</h1>
+
+<!-- Affichage des messages (succès, erreurs) -->
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
+
+<!-- Bouton de création + (optionnel) export/import -->
+<div class="mb-3">
+    <a href="{% url 'product_type_create' %}" class="btn btn-primary">
+        Créer un nouveau Type de produit
+    </a>
+
+    
+    <a href="{% url 'export_product_type_excel' %}" class="btn btn-success">
+        Exporter en CSV
+    </a>
+    
+
+    
+    <form action="{% url 'product_type_create' %}" method="post" enctype="multipart/form-data" style="display:inline;">
+        {% csrf_token %}
+        <input type="file" name="excel_file" accept=".xlsx,.xls" required>
+        <button type="submit" name="import_excel" class="btn btn-info">
+            Importer Excel
+        </button>
+    </form>
+   
+</div>
+
+<!-- Tableau listant les types de produits -->
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Description</th>
+            <!-- Ajoute d'autres colonnes si le modèle ProductType en possède -->
+            <th style="width: 15%;">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for pt in product_types %}
+        <tr>
+            <td>{{ pt.id }}</td>
+            <td>{{ pt.name }}</td>
+            <td>{{ pt.description }}</td>
+            <td>
+                <a href="{% url 'product_type_update' pt.pk %}" class="btn btn-sm btn-warning">
+                    Modifier
+                </a>
+                <a href="{% url 'product_type_delete' pt.pk %}" class="btn btn-sm btn-danger">
+                    Supprimer
+                </a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
